@@ -1,5 +1,7 @@
 .git
 .env
+node_modules
+npm-debug.log*
+*.pdf
 __pycache__
 *.pyc
-*.pdf

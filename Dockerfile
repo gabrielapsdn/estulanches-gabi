@@ -1,27 +1,26 @@
-# ---------- EstuLanches: imagem da aplicação ----------
-FROM python:3.12-slim
+# ---------- EstuLanches: Imagem da Aplicação em Node.js ----------
+FROM node:20-alpine
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
-
-WORKDIR /srv
-
-# Camada de dependências separada (aproveita cache do build)
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY app ./app
-COPY tests ./tests
-
-# Segurança: não executar como root
-RUN useradd --system --no-create-home estu && chown -R estu /srv
-USER estu
+ENV NODE_ENV=production \
+    PORT=8000
 
 WORKDIR /srv/app
+
+# Camada de dependências separada (otimização de cache do build)
+COPY package*.json ./
+RUN npm install --omit=dev --no-audit --no-fund
+
+# Copia código-fonte e testes
+COPY src ./src
+COPY tests ./tests
+
+# Segurança de produção: utilizar usuário não-root nativo da imagem node
+USER node
+
 EXPOSE 8000
 
-HEALTHCHECK --interval=15s --timeout=3s --start-period=20s --retries=3 \
-  CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').status==200 else 1)"
+# Verificação de integridade nativa do container
+HEALTHCHECK --interval=15s --timeout=3s --start-period=15s --retries=3 \
+  CMD node -e "fetch('http://localhost:8000/health').then(r => process.exit(r.status === 200 ? 0 : 1)).catch(() => process.exit(1))"
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--access-logfile", "-", "app:app_factory()"]
+CMD ["node", "src/app.js"]

@@ -1,4 +1,4 @@
-"""Script para preencher a Ficha RDM (Registro de Mudança) em PDF para o EstuLanches.
+"""Script para preencher a Ficha RDM (Registro de Mudança) em PDF para o EstuLanches (Node.js).
 
 Uso:
     python preencher_rdm.py "Gabriela do Nascimento" "3B"
@@ -34,6 +34,12 @@ def preencher_rdm(nome="Gabriela do Nascimento", turma="3B", data_str=None, arqu
     decomp = zlib.decompress(base64.a85decode(raw_stream, adobe=True))
     text = decomp.decode("latin1")
 
+    # Atualiza tipo de mudança para Node.js / Express
+    text = text.replace(
+        "app Flask/Gunicorn + PostgreSQL",
+        "app Node.js/Express + PostgreSQL"
+    )
+
     # Substitui nome no campo de Responsável principal
     text = re.sub(
         r"\(Nome:.*?Tj",
@@ -59,7 +65,8 @@ def preencher_rdm(nome="Gabriela do Nascimento", turma="3B", data_str=None, arqu
         text
     )
 
-    # Garante que os checkboxes e resultados estejam marcados
+    # Atualiza comando dos testes unitários para npm
+    text = text.replace("comando: python -m unittest", "comando: npm run test:unit")
     text = text.replace("Executados: 7 \\267 Aprovados: ____ \\267 Falhas: ____", "Executados: 7 \\267 Aprovados: 7 \\267 Falhas: 0")
     text = text.replace("Executados: 5 \\267 Aprovados: ____ \\267 Falhas: ____", "Executados: 5 \\267 Aprovados: 5 \\267 Falhas: 0")
     text = text.replace("db: [ ] healthy app: [ ] healthy porta 8000 ativa: [ ] sim [ ] n\\343o", "db: [X] healthy app: [X] healthy porta 8000 ativa: [X] sim [ ] n\\343o")
