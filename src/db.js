@@ -27,14 +27,35 @@ CREATE TABLE IF NOT EXISTS pedido_itens (
   item_id INT NOT NULL REFERENCES cardapio(id),
   quantidade INT NOT NULL CHECK (quantidade > 0)
 );
+
+INSERT INTO cardapio (nome, preco, disponivel)
+SELECT 'Coxinha de Frango', 6.50, TRUE
+WHERE NOT EXISTS (SELECT 1 FROM cardapio WHERE nome = 'Coxinha de Frango');
+
+INSERT INTO cardapio (nome, preco, disponivel)
+SELECT 'Misto Quente', 8.00, TRUE
+WHERE NOT EXISTS (SELECT 1 FROM cardapio WHERE nome = 'Misto Quente');
+
+INSERT INTO cardapio (nome, preco, disponivel)
+SELECT 'Suco Natural 300ml', 4.50, TRUE
+WHERE NOT EXISTS (SELECT 1 FROM cardapio WHERE nome = 'Suco Natural 300ml');
+
+INSERT INTO cardapio (nome, preco, disponivel)
+SELECT 'Pão de Queijo', 3.50, TRUE
+WHERE NOT EXISTS (SELECT 1 FROM cardapio WHERE nome = 'Pão de Queijo');
 `;
 
 class MemoryDatabase {
   constructor() {
-    this.cardapio = [];
+    this.cardapio = [
+      { id: 1, nome: 'Coxinha de Frango', preco: 6.50, disponivel: true },
+      { id: 2, nome: 'Misto Quente', preco: 8.00, disponivel: true },
+      { id: 3, nome: 'Suco Natural 300ml', preco: 4.50, disponivel: true },
+      { id: 4, nome: 'Pão de Queijo', preco: 3.50, disponivel: true }
+    ];
     this.pedidos = [];
     this.pedidoItens = [];
-    this.nextCardapioId = 1;
+    this.nextCardapioId = 5;
     this.nextPedidoId = 1;
     this.nextPedidoItemId = 1;
   }
