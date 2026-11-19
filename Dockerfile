@@ -10,7 +10,8 @@ WORKDIR /srv/app
 COPY package*.json ./
 RUN npm install --omit=dev --no-audit --no-fund
 
-# Copia código-fonte e testes
+# Copia código-fonte, interface web e testes
+COPY index.html ./index.html
 COPY src ./src
 COPY tests ./tests
 

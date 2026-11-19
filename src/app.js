@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const { createDatabase } = require('./db');
 const {
@@ -12,6 +13,22 @@ const VERSAO = process.env.APP_VERSION || '1.0.0';
 function createApp(dbInstance) {
   const app = express();
   app.use(express.json());
+
+  // Habilita CORS (permite que ferramentas como Live Server na porta 5500 acessem a API na 8000)
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(204);
+    }
+    next();
+  });
+
+  // Interface Web na raiz
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
+  });
 
   const db = dbInstance || createDatabase();
   app.locals.db = db;

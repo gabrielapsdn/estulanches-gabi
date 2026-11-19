@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EstuLanches — Gestão de Cantina Escolar</title>
+  <style>
+    :root {
+      --primary: #f97316;
+      --primary-hover: #ea580c;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --success: #16a34a;
+      --warning: #ca8a04;
+      --info: #0284c7;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 40px; }
+
+    header {
+      background: linear-gradient(135deg, #ea580c, #f97316);
+      color: white;
+      padding: 24px 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .header-title h1 { font-size: 26px; display: flex; align-items: center; gap: 10px; }
+    .header-title p { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+    .header-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(4px);
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .badge-status { background: #22c55e; color: white; display: inline-flex; align-items: center; gap: 6px; }
+    .badge-status::before { content: ""; width: 8px; height: 8px; background: white; border-radius: 50%; display: inline-block; }
+
+    .container {
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 860px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .card-full { grid-column: 1 / -1; }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #1e293b;
+    }
+
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .alert-warning { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
+    .alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+
+    /* Form */
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155; }
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.15s;
+    }
+    .form-control:focus { border-color: var(--primary); ring: 2px solid #fdba74; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.15s, transform 0.05s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--primary); color: white; width: 100%; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-sm { padding: 6px 10px; font-size: 12px; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: #f1f5f9; }
+
+    /* Items Cardapio */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .menu-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #fafafa;
+    }
+    .menu-item-name { font-weight: 600; font-size: 15px; }
+    .menu-item-price { color: var(--primary); font-weight: 700; font-size: 16px; margin: 6px 0; }
+    .menu-item-action { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+    .qty-input { width: 50px; text-align: center; padding: 4px; border: 1px solid var(--border); border-radius: 4px; }
+
+    /* Pedidos Table */
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    .orders-table th {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 2px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .orders-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .status-tag {
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    .status-RECEBIDO { background: #e0f2fe; color: #0369a1; }
+    .status-EM_PREPARO { background: #fef3c7; color: #b45309; }
+    .status-PRONTO { background: #dcfce7; color: #15803d; }
+    .status-ENTREGUE { background: #f1f5f9; color: #475569; }
+    .status-CANCELADO { background: #fee2e2; color: #b91c1c; }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div class="header-title">
+        <h1>🥪 Sistema EstuLanches</h1>
+        <p>Gestão de Cardápio e Pedidos da Cantina Escolar</p>
+      </div>
+      <div class="header-badges">
+        <span class="badge">Aluna: Gabriela do Nascimento (Turma 3B)</span>
+        <span class="badge" id="backend-status-badge">API: verificando...</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div id="connection-alert" class="card-full" style="display: none;"></div>
+
+    <!-- Card: Cardápio e Novo Pedido -->
+    <div class="card">
+      <div class="card-title">
+        <span>📋 Cardápio Disponível</span>
+        <button class="btn btn-outline btn-sm" onclick="carregarCardapio()">🔄 Atualizar</button>
+      </div>
+
+      <div class="menu-grid" id="menu-container">
+        <p style="color: var(--muted); font-size: 14px;">Carregando cardápio...</p>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+
+      <div class="card-title">
+        <span>🛒 Realizar Pedido</span>
+      </div>
+
+      <div class="form-group">
+        <label for="aluno-nome">Nome do Aluno:</label>
+        <input type="text" id="aluno-nome" class="form-control" placeholder="Ex: Ana Clara" value="Gabriela (Aluno)">
+      </div>
+
+      <div style="background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 14px; font-weight: 600;">Total do Pedido:</span>
+        <span id="pedido-total" style="font-size: 20px; font-weight: 800; color: var(--primary);">R$ 0,00</span>
+      </div>
+
+      <button class="btn btn-primary" onclick="enviarPedido()">✅ Confirmar e Enviar Pedido</button>
+    </div>
+
+    <!-- Card: Cadastro de Novo Item -->
+    <div class="card">
+      <div class="card-title">
+        <span>➕ Cadastrar Item no Cardápio</span>
+      </div>
+
+      <div class="form-group">
+        <label for="novo-item-nome">Nome do Lanche / Bebida:</label>
+        <input type="text" id="novo-item-nome" class="form-control" placeholder="Ex: Coxinha de Frango, Suco de Laranja">
+      </div>
+
+      <div class="form-group">
+        <label for="novo-item-preco">Preço (R$):</label>
+        <input type="number" id="novo-item-preco" class="form-control" placeholder="Ex: 6.50" step="0.50" min="0.50">
+      </div>
+
+      <button class="btn btn-outline" style="width: 100%; border-color: var(--primary); color: var(--primary);" onclick="cadastrarItem()">Cadastrar no Cardápio</button>
+
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 24px 0;">
+
+      <div class="card-title">
+        <span>⚙️ Validação do Sistema (Healthcheck)</span>
+      </div>
+      <p style="font-size: 13px; color: var(--muted); margin-bottom: 10px;">
+        Testa a rota <code>GET /health</code> conectando ao PostgreSQL.
+      </p>
+      <button class="btn btn-outline btn-sm" onclick="verificarHealth()">Testar Conexão com API e Banco</button>
+      <div id="health-result" style="margin-top: 10px; font-size: 13px;"></div>
+    </div>
+
+    <!-- Card: Gestão de Pedidos (Cozinha / Cantina) -->
+    <div class="card card-full">
+      <div class="card-title">
+        <span>👨‍🍳 Painel de Pedidos da Cantina</span>
+        <span style="font-size: 13px; color: var(--muted);">Fluxo: RECEBIDO ➔ EM PREPARO ➔ PRONTO ➔ ENTREGUE</span>
+      </div>
+
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>#ID</th>
+            <th>Aluno</th>
+            <th>Valor Total</th>
+            <th>Status Atual</th>
+            <th>Ações da Cantina</th>
+          </tr>
+        </thead>
+        <tbody id="orders-tbody">
+          <tr>
+            <td colspan="5" style="text-align: center; color: var(--muted); padding: 20px;">Nenhum pedido registrado ainda.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>EstuLanches © 2026 — Atividade Prática de Implantação em Produção com Docker</p>
+    <p>Técnica de Implantação: <strong>Gabriela do Nascimento — Turma 3B</strong></p>
+  </footer>
+
+  <script>
+    // Detecta URL da API: se estiver rodando via Live Server (5500), conecta na 8000.
+    const API_BASE = window.location.port === '8000' ? '' : 'http://localhost:8000';
+
+    let cardapioItens = [];
+    let carrinho = {}; // item_id -> quantidade
+    let pedidosLocais = [];
+
+    async function verificarHealth() {
+      const el = document.getElementById('health-result');
+      const badge = document.getElementById('backend-status-badge');
+      const alertBox = document.getElementById('connection-alert');
+
+      el.innerHTML = 'Verificando...';
+      try {
+        const res = await fetch(`${API_BASE}/health`);
+        if (res.ok) {
+          const data = await res.json();
+          badge.className = 'badge badge-status';
+          badge.innerHTML = `API Online (v${data.versao})`;
+          el.innerHTML = `<span style="color: var(--success); font-weight: 600;">✅ API e Banco Online! Status: ${data.status} | Versão: ${data.versao}</span>`;
+          alertBox.style.display = 'none';
+          return true;
+        }
+      } catch (err) {
+        badge.className = 'badge';
+        badge.style.background = '#ef4444';
+        badge.innerHTML = 'API Offline';
+        el.innerHTML = `<span style="color: var(--danger); font-weight: 600;">❌ API na porta 8000 não respondeu. Certifique-se de executar 'docker compose up -d' ou 'npm start'.</span>`;
+        alertBox.className = 'alert alert-warning';
+        alertBox.innerHTML = `⚠️ <strong>Atenção:</strong> O backend ainda não foi iniciado na porta 8000. Para ligar a API completa com o banco PostgreSQL, abra o terminal e rode: <code>docker compose up -d</code> (ou <code>npm start</code> localmente).`;
+        alertBox.style.display = 'block';
+        return false;
+      }
+    }
+
+    async function carregarCardapio() {
+      const isOnline = await verificarHealth();
+      const container = document.getElementById('menu-container');
+
+      if (!isOnline) {
+        // Fallback de demonstração caso o backend ainda não tenha sido iniciado
+        cardapioItens = [
+          { id: 1, nome: "Coxinha de Frango", preco: 6.50 },
+          { id: 2, nome: "Misto Quente", preco: 8.00 },
+          { id: 3, nome: "Suco Natural 300ml", preco: 4.50 },
+          { id: 4, nome: "Pão de Queijo", preco: 3.50 }
+        ];
+      } else {
+        try {
+          const res = await fetch(`${API_BASE}/cardapio`);
+          cardapioItens = await res.json();
+          if (cardapioItens.length === 0) {
+            // Inicializa itens padrão se o banco estiver vazio
+            await fetch(`${API_BASE}/cardapio`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ nome: 'Coxinha de Frango', preco: 6.5 })
+            });
+            await fetch(`${API_BASE}/cardapio`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ nome: 'Misto Quente', preco: 8.0 })
+            });
+            await fetch(`${API_BASE}/cardapio`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ nome: 'Suco Natural', preco: 4.5 })
+            });
+            const res2 = await fetch(`${API_BASE}/cardapio`);
+            cardapioItens = await res2.json();
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      renderCardapio();
+    }
+
+    function renderCardapio() {
+      const container = document.getElementById('menu-container');
+      container.innerHTML = '';
+
+      cardapioItens.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'menu-item';
+        div.innerHTML = `
+          <div>
+            <div class="menu-item-name">${item.nome}</div>
+            <div class="menu-item-price">R$ ${item.preco.toFixed(2)}</div>
+          </div>
+          <div class="menu-item-action">
+            <button class="btn btn-outline btn-sm" onclick="alterarQtd(${item.id}, -1)">-</button>
+            <input type="text" readonly class="qty-input" id="qty-${item.id}" value="${carrinho[item.id] || 0}">
+            <button class="btn btn-outline btn-sm" onclick="alterarQtd(${item.id}, 1)">+</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+      atualizarTotal();
+    }
+
+    function alterarQtd(id, delta) {
+      const atual = carrinho[id] || 0;
+      const novo = Math.max(0, atual + delta);
+      if (novo === 0) delete carrinho[id];
+      else carrinho[id] = novo;
+      
+      const el = document.getElementById(`qty-${id}`);
+      if (el) el.value = novo;
+      atualizarTotal();
+    }
+
+    function atualizarTotal() {
+      let total = 0;
+      for (const [idStr, qtd] of Object.entries(carrinho)) {
+        const item = cardapioItens.find(c => c.id === parseInt(idStr, 10));
+        if (item) total += item.preco * qtd;
+      }
+      document.getElementById('pedido-total').innerText = `R$ ${total.toFixed(2)}`;
+    }
+
+    async function cadastrarItem() {
+      const nome = document.getElementById('novo-item-nome').value.trim();
+      const preco = parseFloat(document.getElementById('novo-item-preco').value);
+
+      if (!nome || isNaN(preco) || preco <= 0) {
+        alert('Informe um nome válido e um preço maior que zero.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/cardapio`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, preco })
+        });
+        if (res.ok) {
+          alert(`Item "${nome}" cadastrado com sucesso!`);
+          document.getElementById('novo-item-nome').value = '';
+          document.getElementById('novo-item-preco').value = '';
+          carregarCardapio();
+        } else {
+          const err = await res.json();
+          alert(`Erro: ${err.erro}`);
+        }
+      } catch (e) {
+        // Fallback local
+        const novoId = cardapioItens.length + 1;
+        cardapioItens.push({ id: novoId, nome, preco });
+        renderCardapio();
+        alert(`Item "${nome}" adicionado localmente.`);
+      }
+    }
+
+    async function enviarPedido() {
+      const aluno = document.getElementById('aluno-nome').value.trim();
+      if (!aluno) {
+        alert('Por favor, informe o nome do aluno.');
+        return;
+      }
+
+      const itens = Object.entries(carrinho).map(([id, qtd]) => ({
+        item_id: parseInt(id, 10),
+        quantidade: qtd
+      }));
+
+      if (itens.length === 0) {
+        alert('Selecione pelo menos um item no cardápio!');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/pedidos`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ aluno, itens })
+        });
+        if (res.ok) {
+          const pedidoCriado = await res.json();
+          alert(`Pedido #${pedidoCriado.id} criado com sucesso para ${pedidoCriado.aluno}! Total: R$ ${pedidoCriado.total.toFixed(2)}`);
+          pedidosLocais.unshift(pedidoCriado);
+          renderPedidos();
+          carrinho = {};
+          renderCardapio();
+        } else {
+          const err = await res.json();
+          alert(`Erro: ${err.erro}`);
+        }
+      } catch (e) {
+        // Fallback local caso a API não esteja online
+        let total = 0;
+        itens.forEach(it => {
+          const item = cardapioItens.find(c => c.id === it.item_id);
+          if (item) total += item.preco * it.quantidade;
+        });
+        const novoPedido = {
+          id: pedidosLocais.length + 1,
+          aluno,
+          status: 'RECEBIDO',
+          total
+        };
+        pedidosLocais.unshift(novoPedido);
+        renderPedidos();
+        carrinho = {};
+        renderCardapio();
+        alert(`Pedido #${novoPedido.id} registrado localmente (modo demonstração)!`);
+      }
+    }
+
+    const PROXIMO_STATUS = {
+      'RECEBIDO': 'EM_PREPARO',
+      'EM_PREPARO': 'PRONTO',
+      'PRONTO': 'ENTREGUE'
+    };
+
+    async function avancarStatus(pid, statusAtual) {
+      const prox = PROXIMO_STATUS[statusAtual];
+      if (!prox) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/pedidos/${pid}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: prox })
+        });
+        if (res.ok) {
+          const idx = pedidosLocais.findIndex(p => p.id === pid);
+          if (idx !== -1) pedidosLocais[idx].status = prox;
+          renderPedidos();
+        } else {
+          const err = await res.json();
+          alert(`Erro: ${err.erro}`);
+        }
+      } catch (e) {
+        const idx = pedidosLocais.findIndex(p => p.id === pid);
+        if (idx !== -1) pedidosLocais[idx].status = prox;
+        renderPedidos();
+      }
+    }
+
+    function renderPedidos() {
+      const tbody = document.getElementById('orders-tbody');
+      if (pedidosLocais.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--muted); padding: 20px;">Nenhum pedido registrado ainda.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = pedidosLocais.map(p => {
+        const prox = PROXIMO_STATUS[p.status];
+        const btnAction = prox
+          ? `<button class="btn btn-outline btn-sm" onclick="avancarStatus(${p.id}, '${p.status}')">➔ Mudar p/ ${prox}</button>`
+          : `<span style="color: var(--muted); font-size: 13px;">Finalizado</span>`;
+
+        return `
+          <tr>
+            <td><strong>#${p.id}</strong></td>
+            <td>${p.aluno}</td>
+            <td><strong>R$ ${Number(p.total).toFixed(2)}</strong></td>
+            <td><span class="status-tag status-${p.status}">${p.status}</span></td>
+            <td>${btnAction}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Inicialização
+    carregarCardapio();
+  </script>
+</body>
+</html>
