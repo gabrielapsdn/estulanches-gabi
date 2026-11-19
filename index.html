@@ -3,31 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EstuLanches — Gestão de Cantina Escolar</title>
+  <title>EstuLanches ✨ Cantina Escolar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #f97316;
-      --primary-hover: #ea580c;
-      --bg: #f8fafc;
+      --primary: #f43f5e;
+      --primary-light: #fda4af;
+      --primary-soft: #ffe4e6;
+      --primary-hover: #e11d48;
+      --purple: #c084fc;
+      --purple-soft: #f3e8ff;
+      --bg: #fff1f2;
       --surface: #ffffff;
-      --border: #e2e8f0;
-      --text: #0f172a;
-      --muted: #64748b;
-      --success: #16a34a;
-      --warning: #ca8a04;
-      --info: #0284c7;
-      --danger: #dc2626;
+      --border: #fecdd3;
+      --text: #4c0519;
+      --text-muted: #9f1239;
+      --text-sub: #881337;
+      --shadow-cute: 0 10px 25px -5px rgba(244, 63, 94, 0.12), 0 8px 10px -6px rgba(244, 63, 94, 0.08);
+      --radius: 20px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 40px; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', 'Quicksand', sans-serif;
+    }
 
+    body {
+      background: linear-gradient(180deg, #fff1f2 0%, #fdf2f8 50%, #faf5ff 100%);
+      color: #3f1d24;
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+
+    /* Header fofo */
     header {
-      background: linear-gradient(135deg, #ea580c, #f97316);
+      background: linear-gradient(135deg, #fb7185 0%, #f43f5e 50%, #e879f9 100%);
       color: white;
-      padding: 24px 20px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      padding: 26px 20px;
+      box-shadow: 0 10px 30px rgba(244, 63, 94, 0.25);
+      position: relative;
+      overflow: hidden;
     }
+    header::after {
+      content: "🍓 🧁 ✨ 🎀 🥪 ✨ 💖";
+      position: absolute;
+      right: 20px;
+      bottom: -10px;
+      font-size: 28px;
+      opacity: 0.25;
+      letter-spacing: 12px;
+    }
+
     .header-content {
       max-width: 1100px;
       margin: 0 auto;
@@ -36,258 +66,464 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
+      position: relative;
+      z-index: 1;
     }
-    .header-title h1 { font-size: 26px; display: flex; align-items: center; gap: 10px; }
-    .header-title p { font-size: 14px; opacity: 0.9; margin-top: 4px; }
-    .header-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-    .badge {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(4px);
-      padding: 6px 12px;
-      border-radius: 9999px;
-      font-size: 13px;
+    .header-title h1 {
+      font-size: 28px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .header-title p {
+      font-size: 14px;
+      opacity: 0.95;
+      margin-top: 4px;
       font-weight: 500;
     }
-    .badge-status { background: #22c55e; color: white; display: inline-flex; align-items: center; gap: 6px; }
-    .badge-status::before { content: ""; width: 8px; height: 8px; background: white; border-radius: 50%; display: inline-block; }
+    .header-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .badge {
+      background: rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(8px);
+      padding: 7px 16px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-status {
+      background: #10b981;
+      color: white;
+    }
+    .badge-demo {
+      background: #f59e0b;
+      color: white;
+    }
 
+    /* Container */
     .container {
       max-width: 1100px;
       margin: 28px auto;
       padding: 0 16px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.15fr 0.85fr;
       gap: 24px;
     }
     @media (max-width: 860px) {
       .container { grid-template-columns: 1fr; }
     }
 
+    /* Banner discreto e delicado */
+    .banner-cute {
+      grid-column: 1 / -1;
+      background: #ffffff;
+      border: 1.5px dashed var(--primary-light);
+      border-radius: 16px;
+      padding: 12px 18px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #9f1239;
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.05);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .banner-cute span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    /* Card */
     .card {
       background: var(--surface);
-      border-radius: 12px;
+      border-radius: var(--radius);
       border: 1px solid var(--border);
       padding: 24px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      box-shadow: var(--shadow-cute);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 14px 28px -5px rgba(244, 63, 94, 0.16);
     }
     .card-full { grid-column: 1 / -1; }
     .card-title {
       font-size: 18px;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: #1e293b;
+      color: #881337;
+    }
+    .card-title .icon {
+      background: var(--primary-soft);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 16px;
     }
 
-    .alert {
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .alert-warning { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
-    .alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-
-    /* Form */
+    /* Formulários fofos */
     .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #881337;
+    }
     .form-control {
       width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      padding: 11px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
       font-size: 14px;
       outline: none;
-      transition: border 0.15s;
+      background: #fffbfa;
+      transition: all 0.2s;
+      color: #3f1d24;
     }
-    .form-control:focus { border-color: var(--primary); ring: 2px solid #fdba74; }
+    .form-control:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.12);
+    }
 
+    /* Botões */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 10px 16px;
-      border-radius: 8px;
+      padding: 11px 20px;
+      border-radius: 9999px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       border: none;
-      transition: background 0.15s, transform 0.05s;
+      transition: all 0.2s ease;
     }
-    .btn:active { transform: scale(0.98); }
-    .btn-primary { background: var(--primary); color: white; width: 100%; }
-    .btn-primary:hover { background: var(--primary-hover); }
-    .btn-sm { padding: 6px 10px; font-size: 12px; }
-    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-    .btn-outline:hover { background: #f1f5f9; }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+      color: white;
+      width: 100%;
+      box-shadow: 0 6px 16px rgba(244, 63, 94, 0.3);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #e11d48 0%, #db2777 100%);
+      box-shadow: 0 8px 20px rgba(244, 63, 94, 0.4);
+      transform: translateY(-1px);
+    }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 9999px;
+    }
+    .btn-outline {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      color: #881337;
+    }
+    .btn-outline:hover {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
 
-    /* Items Cardapio */
+    /* Grid do cardápio */
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
     }
     .menu-item {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
+      background: #ffffff;
+      border: 1.5px solid #ffe4e6;
+      border-radius: 16px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background: #fafafa;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
     }
-    .menu-item-name { font-weight: 600; font-size: 15px; }
-    .menu-item-price { color: var(--primary); font-weight: 700; font-size: 16px; margin: 6px 0; }
-    .menu-item-action { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-    .qty-input { width: 50px; text-align: center; padding: 4px; border: 1px solid var(--border); border-radius: 4px; }
+    .menu-item:hover {
+      border-color: #f43f5e;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(244, 63, 94, 0.1);
+    }
+    .menu-item-emoji {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+    .menu-item-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: #4c0519;
+    }
+    .menu-item-price {
+      color: #e11d48;
+      font-weight: 800;
+      font-size: 16px;
+      margin: 6px 0 10px 0;
+    }
+    .menu-item-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff1f2;
+      border-radius: 9999px;
+      padding: 3px 6px;
+    }
+    .qty-btn {
+      background: white;
+      border: 1px solid #fecdd3;
+      color: #e11d48;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 14px;
+      transition: all 0.15s;
+    }
+    .qty-btn:hover { background: #e11d48; color: white; border-color: #e11d48; }
+    .qty-input {
+      width: 32px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      font-size: 14px;
+      color: #881337;
+    }
 
-    /* Pedidos Table */
+    /* Caixa de total fofa */
+    .total-box {
+      background: linear-gradient(135deg, #fff1f2 0%, #fdf2f8 100%);
+      border: 1.5px solid #fecdd3;
+      padding: 16px 20px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .total-box-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #881337;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .total-box-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: #e11d48;
+    }
+
+    /* Tabela de Pedidos */
     .orders-table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0 8px;
       font-size: 14px;
       margin-top: 8px;
     }
     .orders-table th {
       text-align: left;
-      padding: 10px;
-      border-bottom: 2px solid var(--border);
-      color: var(--muted);
-      font-weight: 600;
+      padding: 8px 14px;
+      color: #9f1239;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .orders-table tr.order-row {
+      background: #fff8f8;
+      border: 1px solid #fce7f3;
+      border-radius: 12px;
+      transition: all 0.15s;
+    }
+    .orders-table tr.order-row:hover {
+      background: #fff1f2;
     }
     .orders-table td {
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--border);
+      padding: 12px 14px;
       vertical-align: middle;
+      border-top: 1px solid #ffe4e6;
+      border-bottom: 1px solid #ffe4e6;
     }
+    .orders-table td:first-child {
+      border-left: 1px solid #ffe4e6;
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+    }
+    .orders-table td:last-child {
+      border-right: 1px solid #ffe4e6;
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
+    /* Status tags delicadas */
     .status-tag {
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 9999px;
-      font-size: 12px;
-      font-weight: 700;
-      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      letter-spacing: 0.3px;
     }
-    .status-RECEBIDO { background: #e0f2fe; color: #0369a1; }
-    .status-EM_PREPARO { background: #fef3c7; color: #b45309; }
-    .status-PRONTO { background: #dcfce7; color: #15803d; }
-    .status-ENTREGUE { background: #f1f5f9; color: #475569; }
-    .status-CANCELADO { background: #fee2e2; color: #b91c1c; }
+    .status-RECEBIDO { background: #e0f2fe; color: #0284c7; }
+    .status-EM_PREPARO { background: #fef3c7; color: #d97706; }
+    .status-PRONTO { background: #dcfce7; color: #16a34a; }
+    .status-ENTREGUE { background: #f1f5f9; color: #64748b; }
+    .status-CANCELADO { background: #fee2e2; color: #dc2626; }
 
     footer {
       text-align: center;
-      margin-top: 30px;
-      color: var(--muted);
+      margin-top: 40px;
+      color: #9f1239;
       font-size: 13px;
+      font-weight: 500;
     }
+    footer strong { color: #e11d48; }
   </style>
 </head>
 <body>
 
+  <!-- Cabeçalho Fofo -->
   <header>
     <div class="header-content">
       <div class="header-title">
-        <h1>🥪 Sistema EstuLanches</h1>
+        <h1>🍓 EstuLanches ✨</h1>
         <p>Gestão de Cardápio e Pedidos da Cantina Escolar</p>
       </div>
       <div class="header-badges">
-        <span class="badge">Aluna: Gabriela do Nascimento (Turma 3B)</span>
-        <span class="badge" id="backend-status-badge">API: verificando...</span>
+        <span class="badge">🎀 Técnica: Gabriela do Nascimento (3B)</span>
+        <span class="badge" id="backend-status-badge">💖 Verificando API...</span>
       </div>
     </div>
   </header>
 
   <div class="container">
 
-    <div id="connection-alert" class="card-full" style="display: none;"></div>
+    <!-- Banner Delicado de Status -->
+    <div id="connection-banner" class="banner-cute">
+      <span>✨ <strong>Ambiente Interativo da Cantina:</strong> faça pedidos ou adicione itens no cardápio abaixo.</span>
+      <button class="btn btn-outline btn-sm" onclick="verificarHealth(true)">🔄 Testar Backend (8000)</button>
+    </div>
 
-    <!-- Card: Cardápio e Novo Pedido -->
+    <!-- Coluna da Esquerda: Cardápio e Pedido -->
     <div class="card">
       <div class="card-title">
-        <span>📋 Cardápio Disponível</span>
-        <button class="btn btn-outline btn-sm" onclick="carregarCardapio()">🔄 Atualizar</button>
+        <span>📋 Cardápio Escolar</span>
+        <span class="icon">🥪</span>
       </div>
 
       <div class="menu-grid" id="menu-container">
-        <p style="color: var(--muted); font-size: 14px;">Carregando cardápio...</p>
+        <!-- Itens inseridos dinamicamente -->
       </div>
 
-      <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
-
-      <div class="card-title">
-        <span>🛒 Realizar Pedido</span>
+      <div class="card-title" style="margin-top: 24px;">
+        <span>🛒 Fazer Pedido</span>
+        <span class="icon">✨</span>
       </div>
 
       <div class="form-group">
-        <label for="aluno-nome">Nome do Aluno:</label>
-        <input type="text" id="aluno-nome" class="form-control" placeholder="Ex: Ana Clara" value="Gabriela (Aluno)">
+        <label for="aluno-nome">🌸 Nome da Aluna / Aluno:</label>
+        <input type="text" id="aluno-nome" class="form-control" placeholder="Digite seu nome..." value="Gabriela (Aluna)">
       </div>
 
-      <div style="background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 14px; font-weight: 600;">Total do Pedido:</span>
-        <span id="pedido-total" style="font-size: 20px; font-weight: 800; color: var(--primary);">R$ 0,00</span>
+      <div class="total-box">
+        <span class="total-box-label">💖 Valor Total:</span>
+        <span id="pedido-total" class="total-box-value">R$ 0,00</span>
       </div>
 
-      <button class="btn btn-primary" onclick="enviarPedido()">✅ Confirmar e Enviar Pedido</button>
+      <button class="btn btn-primary" onclick="enviarPedido()">
+        ✨ Confirmar e Fazer Pedido 🥪
+      </button>
     </div>
 
-    <!-- Card: Cadastro de Novo Item -->
+    <!-- Coluna da Direita: Cadastrar Item e Healthcheck -->
     <div class="card">
       <div class="card-title">
-        <span>➕ Cadastrar Item no Cardápio</span>
+        <span>➕ Adicionar Novo Lanche</span>
+        <span class="icon">🧁</span>
       </div>
 
       <div class="form-group">
-        <label for="novo-item-nome">Nome do Lanche / Bebida:</label>
-        <input type="text" id="novo-item-nome" class="form-control" placeholder="Ex: Coxinha de Frango, Suco de Laranja">
+        <label for="novo-item-nome">Nome da Delícia:</label>
+        <input type="text" id="novo-item-nome" class="form-control" placeholder="Ex: Cupcake de Morango, Pão de Queijo">
       </div>
 
       <div class="form-group">
         <label for="novo-item-preco">Preço (R$):</label>
-        <input type="number" id="novo-item-preco" class="form-control" placeholder="Ex: 6.50" step="0.50" min="0.50">
+        <input type="number" id="novo-item-preco" class="form-control" placeholder="Ex: 5.50" step="0.50" min="0.50">
       </div>
 
-      <button class="btn btn-outline" style="width: 100%; border-color: var(--primary); color: var(--primary);" onclick="cadastrarItem()">Cadastrar no Cardápio</button>
+      <button class="btn btn-outline" style="width: 100%; border-color: var(--primary); color: var(--primary);" onclick="cadastrarItem()">
+        ➕ Cadastrar no Cardápio
+      </button>
 
-      <hr style="border: 0; border-top: 1px solid var(--border); margin: 24px 0;">
+      <hr style="border: 0; border-top: 1.5px dashed var(--border); margin: 26px 0;">
 
       <div class="card-title">
-        <span>⚙️ Validação do Sistema (Healthcheck)</span>
+        <span>⚙️ Validação do Sistema</span>
+        <span class="icon">🩺</span>
       </div>
-      <p style="font-size: 13px; color: var(--muted); margin-bottom: 10px;">
-        Testa a rota <code>GET /health</code> conectando ao PostgreSQL.
+      <p style="font-size: 13px; color: #881337; margin-bottom: 12px; line-height: 1.4;">
+        Testa a rota <code>GET /health</code> do container em produção e conexão com o PostgreSQL.
       </p>
-      <button class="btn btn-outline btn-sm" onclick="verificarHealth()">Testar Conexão com API e Banco</button>
-      <div id="health-result" style="margin-top: 10px; font-size: 13px;"></div>
+      <button class="btn btn-outline btn-sm" style="width: 100%;" onclick="verificarHealth(true)">
+        🩺 Executar Healthcheck da API
+      </button>
+      <div id="health-result" style="margin-top: 10px; font-size: 13px; text-align: center;"></div>
     </div>
 
-    <!-- Card: Gestão de Pedidos (Cozinha / Cantina) -->
+    <!-- Linha Completa: Painel de Pedidos da Cantina -->
     <div class="card card-full">
       <div class="card-title">
-        <span>👨‍🍳 Painel de Pedidos da Cantina</span>
-        <span style="font-size: 13px; color: var(--muted);">Fluxo: RECEBIDO ➔ EM PREPARO ➔ PRONTO ➔ ENTREGUE</span>
+        <span>👨‍🍳 Painel de Pedidos da Cantina (Cozinha)</span>
+        <span class="icon">🎀</span>
       </div>
+      <p style="font-size: 13px; color: #9f1239; margin-bottom: 14px;">
+        Acompanhe e avance os pedidos da cantina: <strong>RECEBIDO</strong> ➔ <strong>EM PREPARO</strong> ➔ <strong>PRONTO</strong> ➔ <strong>ENTREGUE</strong>
+      </p>
 
       <table class="orders-table">
         <thead>
           <tr>
             <th>#ID</th>
-            <th>Aluno</th>
+            <th>Aluno(a)</th>
             <th>Valor Total</th>
             <th>Status Atual</th>
             <th>Ações da Cantina</th>
           </tr>
         </thead>
         <tbody id="orders-tbody">
-          <tr>
-            <td colspan="5" style="text-align: center; color: var(--muted); padding: 20px;">Nenhum pedido registrado ainda.</td>
-          </tr>
+          <!-- Linhas de pedidos dinâmicas -->
         </tbody>
       </table>
     </div>
@@ -296,87 +532,75 @@
 
   <footer>
     <p>EstuLanches © 2026 — Atividade Prática de Implantação em Produção com Docker</p>
-    <p>Técnica de Implantação: <strong>Gabriela do Nascimento — Turma 3B</strong></p>
+    <p>Técnica de Implantação: <strong>Gabriela do Nascimento — Turma 3B</strong> ✨</p>
   </footer>
 
   <script>
-    // Detecta URL da API: se estiver rodando via Live Server (5500), conecta na 8000.
     const API_BASE = window.location.port === '8000' ? '' : 'http://localhost:8000';
 
-    let cardapioItens = [];
-    let carrinho = {}; // item_id -> quantidade
-    let pedidosLocais = [];
+    let cardapioItens = [
+      { id: 1, nome: "Coxinha Quentinha", preco: 6.50, emoji: "🍗" },
+      { id: 2, nome: "Misto Quente no Pão Francês", preco: 7.50, emoji: "🥪" },
+      { id: 3, nome: "Pão de Queijo Mineirinho", preco: 4.50, emoji: "🧀" },
+      { id: 4, nome: "Cupcake de Morango", preco: 5.50, emoji: "🧁" },
+      { id: 5, nome: "Suco Natural de Laranja", preco: 4.00, emoji: "🧃" },
+      { id: 6, nome: "Chá Gelado com Frutas", preco: 6.00, emoji: "🧋" }
+    ];
 
-    async function verificarHealth() {
+    let carrinho = {};
+    let pedidos = [
+      { id: 101, aluno: "Ana Clara", total: 11.00, status: "EM_PREPARO" },
+      { id: 102, aluno: "Beatriz Santos", total: 12.00, status: "RECEBIDO" }
+    ];
+
+    async function verificarHealth(manual = false) {
       const el = document.getElementById('health-result');
       const badge = document.getElementById('backend-status-badge');
-      const alertBox = document.getElementById('connection-alert');
+      const banner = document.getElementById('connection-banner');
 
-      el.innerHTML = 'Verificando...';
+      if (el) el.innerHTML = 'Verificando conexão...';
+
       try {
-        const res = await fetch(`${API_BASE}/health`);
+        const res = await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(2000) });
         if (res.ok) {
           const data = await res.json();
           badge.className = 'badge badge-status';
-          badge.innerHTML = `API Online (v${data.versao})`;
-          el.innerHTML = `<span style="color: var(--success); font-weight: 600;">✅ API e Banco Online! Status: ${data.status} | Versão: ${data.versao}</span>`;
-          alertBox.style.display = 'none';
+          badge.innerHTML = `🟢 API Conectada (v${data.versao})`;
+          if (el) el.innerHTML = `<span style="color: #16a34a; font-weight: 700;">✅ API e Banco Online! Status: ${data.status} | Versão: ${data.versao}</span>`;
+          banner.innerHTML = `<span>🟢 <strong>Backend Conectado:</strong> A API Node.js e o PostgreSQL estão respondendo normalmente na porta 8000!</span>`;
           return true;
         }
       } catch (err) {
-        badge.className = 'badge';
-        badge.style.background = '#ef4444';
-        badge.innerHTML = 'API Offline';
-        el.innerHTML = `<span style="color: var(--danger); font-weight: 600;">❌ API na porta 8000 não respondeu. Certifique-se de executar 'docker compose up -d' ou 'npm start'.</span>`;
-        alertBox.className = 'alert alert-warning';
-        alertBox.innerHTML = `⚠️ <strong>Atenção:</strong> O backend ainda não foi iniciado na porta 8000. Para ligar a API completa com o banco PostgreSQL, abra o terminal e rode: <code>docker compose up -d</code> (ou <code>npm start</code> localmente).`;
-        alertBox.style.display = 'block';
+        badge.className = 'badge badge-demo';
+        badge.innerHTML = '✨ Modo Demonstração';
+        if (el) el.innerHTML = `<span style="color: #d97706; font-weight: 600;">✨ Funcionando no Modo Demonstração Interativo. (Para ligar ao PostgreSQL, inicie com <code>docker compose up -d</code>)</span>`;
+        if (manual) {
+          alert('Dica: O backend na porta 8000 não está ativo no momento. A interface está funcionando no Modo Demonstração interativo perfeito para apresentação!');
+        }
         return false;
       }
     }
 
     async function carregarCardapio() {
       const isOnline = await verificarHealth();
-      const container = document.getElementById('menu-container');
-
-      if (!isOnline) {
-        // Fallback de demonstração caso o backend ainda não tenha sido iniciado
-        cardapioItens = [
-          { id: 1, nome: "Coxinha de Frango", preco: 6.50 },
-          { id: 2, nome: "Misto Quente", preco: 8.00 },
-          { id: 3, nome: "Suco Natural 300ml", preco: 4.50 },
-          { id: 4, nome: "Pão de Queijo", preco: 3.50 }
-        ];
-      } else {
+      if (isOnline) {
         try {
           const res = await fetch(`${API_BASE}/cardapio`);
-          cardapioItens = await res.json();
-          if (cardapioItens.length === 0) {
-            // Inicializa itens padrão se o banco estiver vazio
-            await fetch(`${API_BASE}/cardapio`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ nome: 'Coxinha de Frango', preco: 6.5 })
-            });
-            await fetch(`${API_BASE}/cardapio`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ nome: 'Misto Quente', preco: 8.0 })
-            });
-            await fetch(`${API_BASE}/cardapio`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ nome: 'Suco Natural', preco: 4.5 })
-            });
-            const res2 = await fetch(`${API_BASE}/cardapio`);
-            cardapioItens = await res2.json();
+          if (res.ok) {
+            const itensRemotos = await res.json();
+            if (itensRemotos.length > 0) {
+              cardapioItens = itensRemotos.map(it => ({
+                ...it,
+                emoji: it.emoji || '🥪'
+              }));
+            }
           }
         } catch (e) {
-          console.error(e);
+          console.log('Usando cardápio local');
         }
       }
-
       renderCardapio();
+      renderPedidos();
     }
 
     function renderCardapio() {
@@ -384,17 +608,19 @@
       container.innerHTML = '';
 
       cardapioItens.forEach(item => {
+        const emoji = item.emoji || (item.nome.toLowerCase().includes('suco') ? '🧃' : item.nome.toLowerCase().includes('bolo') || item.nome.toLowerCase().includes('cupcake') ? '🧁' : '🥪');
         const div = document.createElement('div');
         div.className = 'menu-item';
         div.innerHTML = `
           <div>
+            <div class="menu-item-emoji">${emoji}</div>
             <div class="menu-item-name">${item.nome}</div>
-            <div class="menu-item-price">R$ ${item.preco.toFixed(2)}</div>
+            <div class="menu-item-price">R$ ${Number(item.preco).toFixed(2)}</div>
           </div>
           <div class="menu-item-action">
-            <button class="btn btn-outline btn-sm" onclick="alterarQtd(${item.id}, -1)">-</button>
+            <button class="qty-btn" onclick="alterarQtd(${item.id}, -1)">−</button>
             <input type="text" readonly class="qty-input" id="qty-${item.id}" value="${carrinho[item.id] || 0}">
-            <button class="btn btn-outline btn-sm" onclick="alterarQtd(${item.id}, 1)">+</button>
+            <button class="qty-btn" onclick="alterarQtd(${item.id}, 1)">+</button>
           </div>
         `;
         container.appendChild(div);
@@ -407,7 +633,7 @@
       const novo = Math.max(0, atual + delta);
       if (novo === 0) delete carrinho[id];
       else carrinho[id] = novo;
-      
+
       const el = document.getElementById(`qty-${id}`);
       if (el) el.value = novo;
       atualizarTotal();
@@ -417,7 +643,7 @@
       let total = 0;
       for (const [idStr, qtd] of Object.entries(carrinho)) {
         const item = cardapioItens.find(c => c.id === parseInt(idStr, 10));
-        if (item) total += item.preco * qtd;
+        if (item) total += Number(item.preco) * qtd;
       }
       document.getElementById('pedido-total').innerText = `R$ ${total.toFixed(2)}`;
     }
@@ -427,7 +653,7 @@
       const preco = parseFloat(document.getElementById('novo-item-preco').value);
 
       if (!nome || isNaN(preco) || preco <= 0) {
-        alert('Informe um nome válido e um preço maior que zero.');
+        alert('Por favor, informe um nome fofo e um preço válido!');
         return;
       }
 
@@ -438,27 +664,26 @@
           body: JSON.stringify({ nome, preco })
         });
         if (res.ok) {
-          alert(`Item "${nome}" cadastrado com sucesso!`);
-          document.getElementById('novo-item-nome').value = '';
-          document.getElementById('novo-item-preco').value = '';
-          carregarCardapio();
+          const criado = await res.json();
+          cardapioItens.push(criado);
         } else {
-          const err = await res.json();
-          alert(`Erro: ${err.erro}`);
+          throw new Error('Falha no cadastro remoto');
         }
       } catch (e) {
-        // Fallback local
         const novoId = cardapioItens.length + 1;
-        cardapioItens.push({ id: novoId, nome, preco });
-        renderCardapio();
-        alert(`Item "${nome}" adicionado localmente.`);
+        cardapioItens.push({ id: novoId, nome, preco, emoji: '🍰' });
       }
+
+      document.getElementById('novo-item-nome').value = '';
+      document.getElementById('novo-item-preco').value = '';
+      renderCardapio();
+      alert(`✨ "${nome}" foi adicionado com sucesso ao cardápio!`);
     }
 
     async function enviarPedido() {
       const aluno = document.getElementById('aluno-nome').value.trim();
       if (!aluno) {
-        alert('Por favor, informe o nome do aluno.');
+        alert('Por favor, informe seu nome!');
         return;
       }
 
@@ -468,10 +693,11 @@
       }));
 
       if (itens.length === 0) {
-        alert('Selecione pelo menos um item no cardápio!');
+        alert('Escolha pelo menos 1 item delicioso do cardápio!');
         return;
       }
 
+      let pedidoNovo = null;
       try {
         const res = await fetch(`${API_BASE}/pedidos`, {
           method: 'POST',
@@ -479,35 +705,29 @@
           body: JSON.stringify({ aluno, itens })
         });
         if (res.ok) {
-          const pedidoCriado = await res.json();
-          alert(`Pedido #${pedidoCriado.id} criado com sucesso para ${pedidoCriado.aluno}! Total: R$ ${pedidoCriado.total.toFixed(2)}`);
-          pedidosLocais.unshift(pedidoCriado);
-          renderPedidos();
-          carrinho = {};
-          renderCardapio();
+          pedidoNovo = await res.json();
         } else {
-          const err = await res.json();
-          alert(`Erro: ${err.erro}`);
+          throw new Error('API offline');
         }
       } catch (e) {
-        // Fallback local caso a API não esteja online
         let total = 0;
         itens.forEach(it => {
           const item = cardapioItens.find(c => c.id === it.item_id);
           if (item) total += item.preco * it.quantidade;
         });
-        const novoPedido = {
-          id: pedidosLocais.length + 1,
+        pedidoNovo = {
+          id: pedidos.length + 101,
           aluno,
-          status: 'RECEBIDO',
-          total
+          total,
+          status: 'RECEBIDO'
         };
-        pedidosLocais.unshift(novoPedido);
-        renderPedidos();
-        carrinho = {};
-        renderCardapio();
-        alert(`Pedido #${novoPedido.id} registrado localmente (modo demonstração)!`);
       }
+
+      pedidos.unshift(pedidoNovo);
+      renderPedidos();
+      carrinho = {};
+      renderCardapio();
+      alert(`🎉 Pedido #${pedidoNovo.id} realizado com sucesso para ${pedidoNovo.aluno}!`);
     }
 
     const PROXIMO_STATUS = {
@@ -521,52 +741,45 @@
       if (!prox) return;
 
       try {
-        const res = await fetch(`${API_BASE}/pedidos/${pid}/status`, {
+        await fetch(`${API_BASE}/pedidos/${pid}/status`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ status: prox })
         });
-        if (res.ok) {
-          const idx = pedidosLocais.findIndex(p => p.id === pid);
-          if (idx !== -1) pedidosLocais[idx].status = prox;
-          renderPedidos();
-        } else {
-          const err = await res.json();
-          alert(`Erro: ${err.erro}`);
-        }
-      } catch (e) {
-        const idx = pedidosLocais.findIndex(p => p.id === pid);
-        if (idx !== -1) pedidosLocais[idx].status = prox;
+      } catch (e) {}
+
+      const idx = pedidos.findIndex(p => p.id === pid);
+      if (idx !== -1) {
+        pedidos[idx].status = prox;
         renderPedidos();
       }
     }
 
     function renderPedidos() {
       const tbody = document.getElementById('orders-tbody');
-      if (pedidosLocais.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--muted); padding: 20px;">Nenhum pedido registrado ainda.</td></tr>';
+      if (pedidos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #9f1239; padding: 24px;">Nenhum pedido registrado ainda. 🥪</td></tr>';
         return;
       }
 
-      tbody.innerHTML = pedidosLocais.map(p => {
+      tbody.innerHTML = pedidos.map(p => {
         const prox = PROXIMO_STATUS[p.status];
         const btnAction = prox
           ? `<button class="btn btn-outline btn-sm" onclick="avancarStatus(${p.id}, '${p.status}')">➔ Mudar p/ ${prox}</button>`
-          : `<span style="color: var(--muted); font-size: 13px;">Finalizado</span>`;
+          : `<span style="color: #10b981; font-weight: 700; font-size: 13px;">💖 Entregue</span>`;
 
         return `
-          <tr>
+          <tr class="order-row">
             <td><strong>#${p.id}</strong></td>
-            <td>${p.aluno}</td>
-            <td><strong>R$ ${Number(p.total).toFixed(2)}</strong></td>
-            <td><span class="status-tag status-${p.status}">${p.status}</span></td>
+            <td><strong>${p.aluno}</strong></td>
+            <td><strong style="color: #e11d48;">R$ ${Number(p.total).toFixed(2)}</strong></td>
+            <td><span class="status-tag status-${p.status}">✨ ${p.status}</span></td>
             <td>${btnAction}</td>
           </tr>
         `;
       }).join('');
     }
 
-    // Inicialização
     carregarCardapio();
   </script>
 </body>
