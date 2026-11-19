@@ -114,29 +114,6 @@
       .container { grid-template-columns: 1fr; }
     }
 
-    /* Banner discreto e delicado */
-    .banner-cute {
-      grid-column: 1 / -1;
-      background: #ffffff;
-      border: 1.5px dashed var(--primary-light);
-      border-radius: 0;
-      padding: 12px 18px;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #9f1239;
-      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.05);
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .banner-cute span {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-    }
-
     /* Card */
     .card {
       background: var(--surface);
@@ -418,12 +395,6 @@
 
   <div class="container">
 
-    <!-- Banner Delicado de Status -->
-    <div id="connection-banner" class="banner-cute">
-      <span><strong>Ambiente Interativo da Cantina:</strong> faça pedidos ou adicione itens no cardápio abaixo.</span>
-      <button class="btn btn-outline btn-sm" onclick="verificarHealth(true)">Testar Backend (8000)</button>
-    </div>
-
     <!-- Coluna da Esquerda: Cardápio e Pedido -->
     <div class="card">
       <div class="card-title">
@@ -545,7 +516,6 @@
     async function verificarHealth(manual = false) {
       const el = document.getElementById('health-result');
       const badge = document.getElementById('backend-status-badge');
-      const banner = document.getElementById('connection-banner');
 
       if (el) el.innerHTML = 'Verificando conexão...';
 
@@ -556,13 +526,14 @@
           badge.className = 'badge badge-status';
           badge.innerHTML = `API Conectada (v${data.versao})`;
           if (el) el.innerHTML = `<span style="color: #16a34a; font-weight: 700;">API e Banco Online! Status: ${data.status} | Versão: ${data.versao}</span>`;
-          banner.innerHTML = `<span><strong>Backend Conectado:</strong> A API Node.js e o PostgreSQL estão respondendo normalmente na porta 8000!</span>`;
+          console.log('Backend Conectado: A API Node.js e o PostgreSQL estão respondendo normalmente na porta 8000!');
           return true;
         }
       } catch (err) {
         badge.className = 'badge badge-demo';
         badge.innerHTML = 'Modo Demonstração';
         if (el) el.innerHTML = `<span style="color: #d97706; font-weight: 600;">Funcionando no Modo Demonstração Interativo.</span>`;
+        console.log('Aviso: Backend na porta 8000 offline, executando em modo demonstração.');
         if (manual) {
           alert('Dica: O backend na porta 8000 não está ativo no momento. A interface está funcionando no Modo Demonstração interativo perfeito para apresentação!');
         }
