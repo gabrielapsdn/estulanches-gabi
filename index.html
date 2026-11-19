@@ -48,15 +48,6 @@
       position: relative;
       overflow: hidden;
     }
-    header::after {
-      content: "🍓 🧁 ✨ 🎀 🥪 ✨ 💖";
-      position: absolute;
-      right: 20px;
-      bottom: -10px;
-      font-size: 28px;
-      opacity: 0.25;
-      letter-spacing: 12px;
-    }
 
     .header-content {
       max-width: 1100px;
@@ -413,16 +404,16 @@
 </head>
 <body>
 
-  <!-- Cabeçalho Fofo -->
+  <!-- Cabeçalho -->
   <header>
     <div class="header-content">
       <div class="header-title">
-        <h1>🍓 EstuLanches ✨</h1>
+        <h1>EstuLanches</h1>
         <p>Gestão de Cardápio e Pedidos da Cantina Escolar</p>
       </div>
       <div class="header-badges">
-        <span class="badge">🎀 Técnica: Gabriela do Nascimento (3B)</span>
-        <span class="badge" id="backend-status-badge">💖 Verificando API...</span>
+        <span class="badge">Técnica: Gabriela do Nascimento (3B)</span>
+        <span class="badge" id="backend-status-badge">Verificando API...</span>
       </div>
     </div>
   </header>
@@ -431,8 +422,8 @@
 
     <!-- Banner Delicado de Status -->
     <div id="connection-banner" class="banner-cute">
-      <span>✨ <strong>Ambiente Interativo da Cantina:</strong> faça pedidos ou adicione itens no cardápio abaixo.</span>
-      <button class="btn btn-outline btn-sm" onclick="verificarHealth(true)">🔄 Testar Backend (8000)</button>
+      <span><strong>Ambiente Interativo da Cantina:</strong> faça pedidos ou adicione itens no cardápio abaixo.</span>
+      <button class="btn btn-outline btn-sm" onclick="verificarHealth(true)">Testar Backend (8000)</button>
     </div>
 
     <!-- Coluna da Esquerda: Cardápio e Pedido -->
@@ -532,7 +523,7 @@
 
   <footer>
     <p>EstuLanches © 2026 — Atividade Prática de Implantação em Produção com Docker</p>
-    <p>Técnica de Implantação: <strong>Gabriela do Nascimento — Turma 3B</strong> ✨</p>
+    <p>Técnica de Implantação: <strong>Gabriela do Nascimento — Turma 3B</strong></p>
   </footer>
 
   <script>
@@ -565,15 +556,15 @@
         if (res.ok) {
           const data = await res.json();
           badge.className = 'badge badge-status';
-          badge.innerHTML = `🟢 API Conectada (v${data.versao})`;
-          if (el) el.innerHTML = `<span style="color: #16a34a; font-weight: 700;">✅ API e Banco Online! Status: ${data.status} | Versão: ${data.versao}</span>`;
-          banner.innerHTML = `<span>🟢 <strong>Backend Conectado:</strong> A API Node.js e o PostgreSQL estão respondendo normalmente na porta 8000!</span>`;
+          badge.innerHTML = `API Conectada (v${data.versao})`;
+          if (el) el.innerHTML = `<span style="color: #16a34a; font-weight: 700;">API e Banco Online! Status: ${data.status} | Versão: ${data.versao}</span>`;
+          banner.innerHTML = `<span><strong>Backend Conectado:</strong> A API Node.js e o PostgreSQL estão respondendo normalmente na porta 8000!</span>`;
           return true;
         }
       } catch (err) {
         badge.className = 'badge badge-demo';
-        badge.innerHTML = '✨ Modo Demonstração';
-        if (el) el.innerHTML = `<span style="color: #d97706; font-weight: 600;">✨ Funcionando no Modo Demonstração Interativo. (Para ligar ao PostgreSQL, inicie com <code>docker compose up -d</code>)</span>`;
+        badge.innerHTML = 'Modo Demonstração';
+        if (el) el.innerHTML = `<span style="color: #d97706; font-weight: 600;">Funcionando no Modo Demonstração Interativo.</span>`;
         if (manual) {
           alert('Dica: O backend na porta 8000 não está ativo no momento. A interface está funcionando no Modo Demonstração interativo perfeito para apresentação!');
         }
