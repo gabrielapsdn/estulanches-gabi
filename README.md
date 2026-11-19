@@ -88,31 +88,82 @@ curl -X POST http://localhost:8000/pedidos -H "Content-Type: application/json" -
 
 ---
 
-## 🎬 Roteiro Sugerido para o Vídeo (2 a 5 minutos)
+## 🎬 Roteiro Completo para Gravação do Vídeo (Tempo Total: ~3m45s)
 
-1. **(0:00 - 0:40) Introdução**:
-   - Apresente-se (Gabriela do Nascimento - Turma 3B) e explique o objetivo do sistema EstuLanches (gestão de cardápio e pedidos de cantina escolar).
-   - Destaque a stack: Node.js (JavaScript), Express, PostgreSQL 16 e Docker.
-2. **(0:40 - 1:20) Estrutura do Código e Dockerfile**:
-   - Mostre as pastas `src/` e `tests/`.
-   - Explique o [Dockerfile](Dockerfile): base Alpine, cache de `npm install`, usuário de segurança `USER node` e `HEALTHCHECK`.
-3. **(1:20 - 2:00) Docker Compose e Segurança**:
-   - Mostre o [docker-compose.yml](docker-compose.yml): rede isolada, volume `pgdata`, healthcheck do PostgreSQL e a dependência `condition: service_healthy`.
-4. **(2:00 - 2:40) Subida em Produção e Auditoria**:
-   - Execute:
-     ```bash
-     docker compose up -d --build
-     docker compose ps
-     docker compose logs db app
-     ```
-   - Destaque que os serviços estão `healthy` e sem erros críticos nos logs.
-5. **(2:40 - 3:30) Demonstração dos Testes**:
-   - Execute no terminal:
-     ```bash
-     npm test
-     docker compose --profile test run --rm tests
-     ```
-   - Destaque os 7 testes unitários e os 5 testes de integração todos aprovados (12/12 pass).
-6. **(3:30 - 4:30) Teste Funcional e Ficha RDM**:
-   - Execute uma chamada no `/health` e crie um pedido com `curl`.
-   - Abra o arquivo [RDM_EstuLanches.pdf](RDM_EstuLanches.pdf) e mostre a Ficha Simplificada de Registro de Mudança de 1 página completamente preenchida e assinada.
+> **Faixa permitida pelo professor:** Mínimo de 2 minutos e máximo de 5 minutos.  
+> **Dica:** Grave a tela com seu microfone ligado usando OBS Studio ou o atalho do Windows `Win + Alt + R`.
+
+---
+
+### 🕒 1. (0:00 - 0:35) Apresentação da Autora e do Projeto
+* **O que mostrar na tela:** O arquivo `README.md` ou a tela inicial da aplicação no navegador.
+* **O que falar:**
+  > *"Olá, professor e avaliadores! Meu nome é Gabriela do Nascimento, sou aluna da Turma 3B e atuei como Técnica de Implantação nesta atividade prática.*  
+  > *O projeto desenvolvido é o **EstuLanches**, um sistema para gestão de cardápio e pedidos de cantinas escolares.*  
+  > *Ele resolve o problema clássico de filas desorganizadas, erros de cobrança e falta de controle de estoque durante o intervalo escolar, permitindo aos alunos consultar o cardápio e fazer pedidos de forma rápida e segura."*
+
+---
+
+### 🕒 2. (0:35 - 1:10) Demonstração do Código e Arquitetura
+* **O que mostrar na tela:** O VS Code aberto mostrando a pasta `src/` (`app.js`, `services.js`, `db.js`).
+* **O que falar:**
+  > *"O sistema foi construído em **Node.js (JavaScript)** utilizando boas práticas de arquitetura em camadas e desacoplamento:*  
+  > *- Em `services.js`, temos regras de negócio puras — cálculo financeiro com precisão de centavos, validações de preço e a máquina de estados do pedido — sem dependência de banco ou HTTP, facilitando testes unitários rápidos.*  
+  > *- Em `db.js`, gerenciamos a persistência com **PostgreSQL 16**, com pool de conexões e auto-migração de schema com espera ativa.*  
+  > *- Em `app.js`, estruturamos a API REST com **Express**, implementando endpoints padronizados de cardápio, pedidos e o `/health`."*
+
+---
+
+### 🕒 3. (1:10 - 1:50) Dockerfile, Docker Compose e Segurança
+* **O que mostrar na tela:** Os arquivos `Dockerfile` e `docker-compose.yml`.
+* **O que falar:**
+  > *"Para a implantação em produção, utilizamos Docker seguindo diretrizes rígidas de segurança:*  
+  > *- No **Dockerfile**, usamos a imagem base leve `node:20-alpine`, separamos a instalação de dependências para aproveitar o cache de build, definimos um `HEALTHCHECK` nativo e rodamos o container com usuário sem privilégios (`USER node`), nunca como root.*  
+  > *- No **docker-compose.yml**, o banco PostgreSQL e a aplicação se comunicam em uma rede interna isolada. A porta do banco (5432) não é exposta para o host, protegendo os dados. Temos persistência no volume `pgdata`, senhas seguras gerenciadas via `.env`, e a aplicação só sobe após o banco estar saudável através da diretiva `depends_on: condition: service_healthy`."*
+
+---
+
+### 🕒 4. (1:50 - 2:30) Execução dos Testes Automatizados
+* **O que mostrar na tela:** O terminal executando os testes.
+* **O que executar no terminal:**
+  ```bash
+  npm test
+  ```
+* **O que falar:**
+  > *"A qualidade do software foi validada com testes automatizados:*  
+  > *- Temos **7 testes unitários** testando regras de negócio puras (cálculos, validações e fluxos).*  
+  > *- Temos **5 testes de integração** validando rotas HTTP, persistência e códigos de retorno como 200, 201, 400, 404 e 409.*  
+  > *Como podemos ver no terminal, todos os 12 testes foram executados com 100% de aprovação."*
+
+---
+
+### 🕒 5. (2:30 - 3:05) Demonstração do Sistema na Prática
+* **O que mostrar na tela:** O navegador em `http://localhost:8000` (ou `http://127.0.0.1:5500`).
+* **O que fazer na tela:**
+  - Mostrar o cardápio com as comidinhas (Coxinha de Frango, Misto Quente, Suco, Pão de Queijo).
+  - Selecionar 2 coxinhas e 1 suco, clicar em **Confirmar e Fazer Pedido**.
+  - No painel da cantina abaixo, mostrar o pedido criado e clicar no botão para avançar o status (`RECEBIDO` ➔ `EM PREPARO` ➔ `PRONTO` ➔ `ENTREGUE`).
+* **O que falar:**
+  > *"Aqui temos o sistema operando em tempo real. O cardápio exibe as comidinhas da cantina. Selecionamos os itens, o valor total é calculado automaticamente na tela, e enviamos o pedido.*  
+  > *No painel da cantina, a cozinha acompanha o pedido e avança as etapas até a entrega ao aluno."*
+
+---
+
+### 🕒 6. (3:05 - 3:30) Exibição da Ficha RDM Preenchida
+* **O que mostrar na tela:** Abrir o arquivo `RDM_EstuLanches.pdf` em leitor de PDF ou navegador.
+* **O que falar:**
+  > *"Como parte do processo de governança de TI, preenchi a **Ficha Simplificada de Registro de Mudança (RDM)** de 1 página.*  
+  > *Ela documenta a versão 1.0.0 implantada, data e horário, parâmetros alterados de rede e variáveis, aprovação de 100% dos testes e o status final como Concluída com Sucesso, devidamente assinada."*
+
+---
+
+### 🕒 7. (3:30 - 4:10) Escalabilidade Nacional (1 Milhão de Usuários / 100 Mil Simultâneos)
+* **O que mostrar na tela:** O slide, diagrama ou tópico de escalabilidade no README.
+* **O que falar:**
+  > *"Por fim, como técnico de implantação, planejei a arquitetura conceitual para escalar o EstuLanches para o Brasil inteiro — suportando **1 milhão de usuários cadastrados e 100 mil acessos simultâneos no horário de pico do recreio**:*  
+  > *1. **Computação Elástica:** Migrar os containers para um cluster **Kubernetes** com Horizontal Pod Autoscaler (HPA), escalando os pods de Node.js dinamicamente conforme a demanda.*  
+  > *2. **Balanço de Carga e CDN:** Uso de **Cloudflare / AWS CloudFront** na borda para entrega de assets estáticos e **Application Load Balancer** distribuindo o tráfego.*  
+  > *3. **Cache em Memória:** Implementação de **Redis Cluster** para cachear o cardápio e sessões, reduzindo em até 80% as consultas ao banco.*  
+  > *4. **Banco de Dados Distribuído:** PostgreSQL em nuvem gerenciada (como AWS Aurora) com instância primária para escrita, réplicas de leitura e PgBouncer para connection pooling.*  
+  > *5. **Mensageria Assíncrona:** Fila com **RabbitMQ ou Kafka** para enfileirar os pedidos de compra, garantindo que nenhum pedido se perca mesmo sob picos extremos de acessos.*  
+  > *Muito obrigada pela atenção!"*
